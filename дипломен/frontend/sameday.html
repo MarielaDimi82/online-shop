@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Same-day Bouquets — Bloomora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .sameday-hero{padding:2.5rem 1rem;background:linear-gradient(135deg,rgba(255,143,196,0.06),rgba(139,92,246,0.04));border-radius:12px;margin:1.5rem auto;max-width:1200px}
+    .sameday-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem}
+    .sd-card{background:white;border-radius:12px;padding:1rem;border:1px solid rgba(139,92,246,0.08);box-shadow:0 6px 18px rgba(139,92,246,0.04);display:flex;flex-direction:column;gap:0.5rem}
+    .sd-art{height:120px;border-radius:8px;background:linear-gradient(135deg,rgba(255,143,196,0.08),rgba(139,92,246,0.06));display:flex;align-items:center;justify-content:center;font-size:3rem}
+    .sd-meta{display:flex;justify-content:space-between;align-items:center}
+    .sd-meta h4{margin:0;color:#3a185a}
+    .sd-price{color:var(--violet);font-weight:700}
+    .sd-actions{display:flex;gap:0.5rem;margin-top:0.5rem}
+    .btn-today{flex:1;padding:0.6rem;border-radius:10px;background:linear-gradient(90deg,var(--pink),var(--violet));color:white;border:none;cursor:pointer}
+    .btn-details{flex:0 0 auto;padding:0.5rem;border-radius:10px;border:2px solid rgba(139,92,246,0.12);background:transparent;color:var(--violet);cursor:pointer}
+    @media(max-width:700px){.sd-art{height:100px;font-size:2.2rem}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">Bloomora</div>
+      <nav class="nav">
+        <a href="homepage.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html">Shop</a>
+          <div class="dropdown-menu">
+            <a href="shop.html?category=all">All Bouquets</a>
+            <a href="shop.html?category=wedding">Wedding Bouquets</a>
+            <a href="shop.html?category=special">Special Occasions</a>
+            <a href="sameday.html">Same-day Delivery</a>
+            <a href="custom.html">Create Your Own</a>
+            <a href="shop.html?category=romantic">Romantic</a>
+          </div>
+        </div>
+        <a href="#">About</a>
+        <button id="cartBtn" class="cart-btn">Cart (0)</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="sameday-hero">
+      <h2 class="section-title">Same-day Delivery — Order for delivery today</h2>
+      <p style="color:#5b3b7a;margin-top:0.5rem">Selected bouquets below are prepared for delivery today. Click <strong>Order Today</strong> to place an expedited order — delivery date will be prefilled as today.</p>
+
+      <div class="sameday-grid" id="samedayGrid">
+        <!-- cards injected by JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><small>© <span id="year"></span> Bloomora — Same-day bouquets</small></div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const samedayProducts = [
+      {id:'sd1', name:'Blushing Bouquet', price:45.00, desc:'Pink & violet roses with eucalyptus'},
+      {id:'sd2', name:'Violet Dream', price:52.00, desc:'Lavender roses and peonies'},
+      {id:'sd3', name:'Sunrise Special', price:40.00, desc:'Peach roses & daisies'}
+    ];
+
+    function fmt(v){return '€'+v.toFixed(2)}
+
+    function renderSameDay(){
+      const grid = document.getElementById('samedayGrid');
+      samedayProducts.forEach(p=>{
+        const card = document.createElement('div'); card.className='sd-card';
+        const art = document.createElement('div'); art.className='sd-art'; art.textContent='🌸';
+        const meta = document.createElement('div'); meta.className='sd-meta';
+        const h = document.createElement('h4'); h.textContent = p.name;
+        const price = document.createElement('div'); price.className='sd-price'; price.textContent = fmt(p.price);
+        meta.appendChild(h); meta.appendChild(price);
+        const desc = document.createElement('div'); desc.style.color='#6b5b86'; desc.style.fontSize='0.9rem'; desc.textContent=p.desc;
+        const actions = document.createElement('div'); actions.className='sd-actions';
+        const btnToday = document.createElement('button'); btnToday.className='btn-today'; btnToday.textContent='Order Today';
+        btnToday.onclick = ()=>orderToday(p);
+        const btnDet = document.createElement('button'); btnDet.className='btn-details'; btnDet.textContent='Details';
+        btnDet.onclick = ()=>alert(p.name + '\n\n' + p.desc + '\nPrice: ' + fmt(p.price));
+        actions.appendChild(btnToday); actions.appendChild(btnDet);
+
+        card.appendChild(art); card.appendChild(meta); card.appendChild(desc); card.appendChild(actions);
+        grid.appendChild(card);
+      });
+    }
+
+    function orderToday(product){
+      // try to call global addToCart if available
+      try{
+        if(typeof addToCart === 'function'){
+          addToCart(product.id || product.name);
+        } else {
+          // fallback: store minimal cart in localStorage
+          const cur = JSON.parse(localStorage.getItem('cart')||'[]');
+          cur.push({id:product.id,name:product.name,price:product.price,qty:1});
+          localStorage.setItem('cart',JSON.stringify(cur));
+        }
+      }catch(e){
+        console.error(e);
+      }
+
+      // mark delivery date as today for checkout to pick up
+      const today = new Date().toISOString().slice(0,10);
+      localStorage.setItem('deliveryDate', today);
+
+      // go to checkout
+      window.location.href = 'checkout.html';
+    }
+
+    renderSameDay();
+  </script>
+</body>
+</html>

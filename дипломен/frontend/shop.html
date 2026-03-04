@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shop — Bloomora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">Bloomora</div>
+      <nav class="nav">
+        <a href="homepage.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html">Shop</a>
+          <div class="dropdown-menu">
+            <a href="shop.html?category=all">All Bouquets</a>
+            <a href="shop.html?category=wedding">Wedding Bouquets</a>
+            <a href="shop.html?category=special">Special Occasions</a>
+            <a href="sameday.html">Same-day Delivery</a>
+            <a href="custom.html">Create Your Own</a>
+            <a href="shop.html?category=romantic">Romantic</a>
+          </div>
+        </div>
+        <a href="#">About</a>
+        <button id="cartBtn" class="cart-btn">Cart (0)</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container shop-section">
+      <h2 class="section-title">Shop — Filter Bouquets</h2>
+      <div class="shop-layout">
+        <aside class="filters-sidebar">
+          <h3>Filters</h3>
+          <div class="filter-group">
+            <label>Color:</label>
+            <select id="filterColor"><option value="any">Any</option></select>
+          </div>
+          <div class="filter-group">
+            <label>Flower type:</label>
+            <select id="filterType"><option value="any">Any</option></select>
+          </div>
+          <div class="filter-group">
+            <label>Price min:</label>
+            <input id="priceMin" type="number" min="0" step="1" />
+          </div>
+          <div class="filter-group">
+            <label>Price max:</label>
+            <input id="priceMax" type="number" min="0" step="1" />
+          </div>
+          <div class="filter-group">
+            <button id="applyFilters" class="add-btn" style="width:100%">Apply</button>
+            <button id="resetFilters" class="cart-btn" style="width:100%;margin-top:0.5rem">Reset</button>
+          </div>
+        </aside>
+
+        <div class="products-area">
+          <div class="grid" id="productGrid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> Bloomora — Flowers & Bouquets</small>
+    </div>
+  </footer>
+
+  <div id="cartModal" class="cart-modal" aria-hidden="true">
+    <div class="cart-panel">
+      <button id="closeCart" class="close">✕</button>
+      <h4>Your Cart</h4>
+      <ul id="cartList" class="cart-list"></ul>
+      <div class="cart-footer">
+        <div class="total">Total: <span id="cartTotal">€0.00</span></div>
+        <button id="checkout" class="btn-primary">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

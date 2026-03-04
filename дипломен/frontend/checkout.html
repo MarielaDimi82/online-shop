@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout — Bloomora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">Bloomora</div>
+      <nav class="nav">
+        <a href="homepage.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html">Shop</a>
+          <div class="dropdown-menu">
+            <a href="shop.html?category=all">All Bouquets</a>
+            <a href="shop.html?category=wedding">Wedding Bouquets</a>
+            <a href="shop.html?category=special">Special Occasions</a>
+            <a href="sameday.html">Same-day Delivery</a>
+            <a href="custom.html">Create Your Own</a>
+            <a href="shop.html?category=romantic">Romantic</a>
+          </div>
+        </div>
+        <a href="#">About</a>
+        <button id="cartBtn" class="cart-btn">Cart (0)</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container checkout-container">
+      <h2 class="section-title">Checkout</h2>
+      
+      <div class="checkout-layout">
+        <div class="checkout-form-area">
+          <form id="checkoutForm" class="checkout-form">
+            <fieldset class="form-section">
+              <legend>Your Details</legend>
+              
+              <div class="form-group">
+                <label for="name">Full Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" required />
+              </div>
+
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" rows="3"></textarea>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+              <legend>Delivery</legend>
+              
+              <div class="form-group">
+                <label for="deliveryDate">Delivery Date <span class="required">*</span></label>
+                <input type="date" id="deliveryDate" name="deliveryDate" required />
+              </div>
+
+              <div class="form-group">
+                <label for="message">Special Message (Optional)</label>
+                <textarea id="message" name="message" rows="3" placeholder="Add a personal message..."></textarea>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+              <legend>Payment Method</legend>
+              
+              <div class="payment-options">
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="card" required />
+                  <span class="payment-label">
+                    <strong>💳 Pay with Card</strong>
+                    <small>Credit or Debit Card</small>
+                  </span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="delivery" required />
+                  <span class="payment-label">
+                    <strong>🚚 Pay on Delivery</strong>
+                    <small>Pay when you receive your bouquets</small>
+                  </span>
+                </label>
+              </div>
+
+              <div id="cardPaymentDetails" class="card-payment-section" style="display:none">
+                <div class="form-group">
+                  <label for="cardName">Cardholder Name <span class="required">*</span></label>
+                  <input type="text" id="cardName" name="cardName" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cardNumber">Card Number <span class="required">*</span></label>
+                  <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="expiry">Expiry Date <span class="required">*</span></label>
+                    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" />
+                  </div>
+                  <div class="form-group">
+                    <label for="cvv">CVV <span class="required">*</span></label>
+                    <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="form-actions">
+              <a href="shop.html" class="btn-secondary">Continue Shopping</a>
+              <button type="submit" class="btn-primary">Place Order</button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="checkout-summary">
+          <h3>Order Summary</h3>
+          <ul id="summaryList" class="summary-list"></ul>
+          <div class="summary-total">
+            <strong>Total:</strong>
+            <span id="summaryTotal">€0.00</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> Bloomora — Flowers & Bouquets</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded',()=>{
+      renderCheckoutSummary();
+      const form = document.getElementById('checkoutForm');
+      if(form) form.addEventListener('submit',handleCheckoutSubmit);
+      const today = new Date().toISOString().split('T')[0];
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 3);
+      const minDate = futureDate.toISOString().split('T')[0];
+      const deliveryInput = document.getElementById('deliveryDate');
+      if(deliveryInput){
+        deliveryInput.setAttribute('min', minDate);
+        deliveryInput.value = minDate;
+      }
+
+      const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+      paymentRadios.forEach(radio=>{
+        radio.addEventListener('change',toggleCardPaymentDetails);
+      });
+    });
+
+    function toggleCardPaymentDetails(){
+      const cardSection = document.getElementById('cardPaymentDetails');
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+      if(paymentMethod === 'card'){
+        cardSection.style.display = 'block';
+        document.getElementById('cardName').required = true;
+        document.getElementById('cardNumber').required = true;
+        document.getElementById('expiry').required = true;
+        document.getElementById('cvv').required = true;
+      }else{
+        cardSection.style.display = 'none';
+        document.getElementById('cardName').required = false;
+        document.getElementById('cardNumber').required = false;
+        document.getElementById('expiry').required = false;
+        document.getElementById('cvv').required = false;
+      }
+    }
+
+    function renderCheckoutSummary(){
+      const list = document.getElementById('summaryList');
+      if(!list) return;
+      list.innerHTML = '';
+      let total = 0;
+      cart.forEach(item=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${item.name} × ${item.qty}</span><span>${fmt(item.price * item.qty)}</span>`;
+        list.appendChild(li);
+        total += item.price * item.qty;
+      });
+      document.getElementById('summaryTotal').textContent = fmt(total);
+    }
+
+    function handleCheckoutSubmit(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const deliveryDate = document.getElementById('deliveryDate').value;
+      const address = document.getElementById('address').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+      
+      if(!name || !email || !phone || !deliveryDate || !paymentMethod){
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      let paymentInfo = {method: paymentMethod};
+      if(paymentMethod === 'card'){
+        const cardName = document.getElementById('cardName').value.trim();
+        const cardNumber = document.getElementById('cardNumber').value.trim();
+        const expiry = document.getElementById('expiry').value.trim();
+        const cvv = document.getElementById('cvv').value.trim();
+        
+        if(!cardName || !cardNumber || !expiry || !cvv){
+          alert('Please fill in all card details');
+          return;
+        }
+
+        if(!/^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/.test(cardNumber.replace(/\s/g,''))){
+          alert('Invalid card number');
+          return;
+        }
+
+        if(!/^\d{2}\/\d{2}$/.test(expiry)){
+          alert('Expiry date must be in MM/YY format');
+          return;
+        }
+
+        if(!/^\d{3}$/.test(cvv)){
+          alert('CVV must be 3 digits');
+          return;
+        }
+
+        paymentInfo = {
+          method: 'card',
+          cardName,
+          cardLast4: cardNumber.slice(-4),
+          expiry
+        };
+      }
+
+      const orderData = {
+        name,email,phone,address,deliveryDate,message,
+        payment: paymentInfo,
+        items: cart,
+        total: cart.reduce((sum,item)=>sum + item.price*item.qty, 0)
+      };
+
+      console.log('Order:', orderData);
+      const paymentText = paymentInfo.method === 'card' ? 'card payment' : 'payment on delivery';
+      alert(`Thank you ${name}! Your order has been placed with ${paymentText}. We'll contact you at ${phone} to confirm delivery on ${deliveryDate}.`);
+      cart.length = 0;
+      window.location.href = 'shop.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create Your Own Bouquet — Bloomora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .custom-container{padding:2rem 20px;background:linear-gradient(135deg,rgba(255,143,196,0.08),rgba(139,92,246,0.06));border-radius:8px;margin:2rem auto;max-width:1200px}
+    .custom-layout{display:flex;gap:2rem;margin-top:1.5rem;align-items:flex-start}
+    .custom-controls{flex:1;background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(139,92,246,0.04));border-radius:14px;padding:1.5rem;border:1px solid rgba(139,92,246,0.12);box-shadow:0 2px 8px rgba(139,92,246,0.06)}
+    .custom-preview{flex:1;background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(255,143,196,0.08));border-radius:14px;padding:2rem;border:1px solid rgba(139,92,246,0.15);box-shadow:0 4px 12px rgba(139,92,246,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center}
+    
+    .control-section{margin-bottom:1.75rem;padding-bottom:1.75rem;border-bottom:1px solid rgba(139,92,246,0.1)}
+    .control-section:last-child{border-bottom:none}
+    .control-section h3{color:#3a185a;font-size:1rem;font-weight:700;margin-bottom:1rem}
+    
+    .flower-options,.color-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.75rem}
+    .flower-check,.color-check{display:flex;align-items:center;gap:0.5rem;padding:0.75rem;border:2px solid rgba(139,92,246,0.15);border-radius:10px;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.5)}
+    .flower-check input[type="checkbox"],.color-check input[type="checkbox"]{cursor:pointer;accent-color:var(--violet)}
+    .flower-check:has(input:checked),.color-check:has(input:checked){border-color:var(--violet);background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(255,143,196,0.08))}
+    .flower-check label,.color-check label{flex:1;cursor:pointer;font-size:0.9rem;color:#45286a;font-weight:500}
+    .flower-check:has(input:checked) label,.color-check:has(input:checked) label{color:var(--violet);font-weight:600}
+    
+    .quantity-section{display:flex;flex-direction:column;gap:0.75rem}
+    .quantity-slider{width:100%;height:6px;border-radius:3px;background:rgba(139,92,246,0.2);outline:none;-webkit-appearance:none;appearance:none}
+    .quantity-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(90deg,var(--pink),var(--violet));cursor:pointer;box-shadow:0 2px 6px rgba(139,92,246,0.3)}
+    .quantity-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:linear-gradient(90deg,var(--pink),var(--violet));cursor:pointer;border:none;box-shadow:0 2px 6px rgba(139,92,246,0.3)}
+    .quantity-display{display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(255,143,196,0.06));border-radius:8px}
+    .quantity-display strong{color:#3a185a;font-size:1.1rem}
+    
+    .price-display{display:flex;flex-direction:column;gap:0.5rem;padding:1rem;background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(255,143,196,0.08));border-radius:10px;border:1px solid rgba(139,92,246,0.1)}
+    .price-display div{display:flex;justify-content:space-between;font-size:0.95rem;color:#45286a}
+    .price-display .total{font-size:1.25rem;font-weight:700;color:var(--violet);border-top:1px solid rgba(139,92,246,0.1);padding-top:0.75rem;margin-top:0.75rem}
+    
+    .actions{display:flex;gap:1rem;margin-top:1.5rem}
+    .actions a,.actions button{flex:1;padding:0.75rem 1rem;border-radius:12px;text-decoration:none;font-weight:600;cursor:pointer;font-size:0.95rem;border:none;transition:all 0.2s}
+    .btn-back{border:2px solid var(--violet);color:var(--violet);background:transparent}
+    .btn-back:hover{background:var(--violet);color:white}
+    .btn-add{background:linear-gradient(90deg,var(--pink),var(--violet));color:white}
+    .btn-add:hover{box-shadow:0 4px 12px rgba(139,92,246,0.3);transform:translateY(-2px)}
+    
+    .preview-bouquet{width:250px;height:280px;position:relative;margin-bottom:1rem}
+    .preview-info{text-align:center;color:#45286a}
+    .preview-info h3{color:#3a185a;font-size:1.1rem;margin-bottom:0.5rem}
+    .preview-info p{font-size:0.9rem;margin:0.25rem 0}
+    
+    @media(max-width:900px){
+      .custom-layout{flex-direction:column}
+    }
+    
+    @media(max-width:768px){
+      .flower-options,.color-options{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+      .actions{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">Bloomora</div>
+      <nav class="nav">
+        <a href="homepage.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html">Shop</a>
+          <div class="dropdown-menu">
+            <a href="shop.html?category=all">All Bouquets</a>
+            <a href="shop.html?category=wedding">Wedding Bouquets</a>
+            <a href="shop.html?category=special">Special Occasions</a>
+            <a href="sameday.html">Same-day Delivery</a>
+            <a href="shop.html?category=custom">Create Your Own</a>
+            <a href="shop.html?category=romantic">Romantic</a>
+          </div>
+        </div>
+        <a href="#">About</a>
+        <button id="cartBtn" class="cart-btn">Cart (0)</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="custom-container">
+      <h2 class="section-title">Create Your Own Bouquet</h2>
+      
+      <div class="custom-layout">
+        <div class="custom-controls">
+          <form id="customForm">
+            <div class="control-section">
+              <h3>Flower Types</h3>
+              <div class="flower-options">
+                <label class="flower-check">
+                  <input type="checkbox" name="flowers" value="roses" data-color="red" />
+                  <label>🌹 Roses</label>
+                </label>
+                <label class="flower-check">
+                  <input type="checkbox" name="flowers" value="tulips" data-color="red" />
+                  <label>🌷 Tulips</label>
+                </label>
+                <label class="flower-check">
+                  <input type="checkbox" name="flowers" value="peonies" data-color="pink" />
+                  <label>🌸 Peonies</label>
+                </label>
+                <label class="flower-check">
+                  <input type="checkbox" name="flowers" value="daisies" data-color="white" />
+                  <label>🌼 Daisies</label>
+                </label>
+                <label class="flower-check">
+                  <input type="checkbox" name="flowers" value="lilies" data-color="white" />
+                  <label>🌺 Lilies</label>
+                </label>
+                <label class="flower-check">
+                  <input type="checkbox" name="flowers" value="hydrangeas" data-color="blue" />
+                  <label>💜 Hydrangeas</label>
+                </label>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>Colors</h3>
+              <div class="color-options">
+                <label class="color-check">
+                  <input type="checkbox" name="colors" value="pink" />
+                  <label>🌸 Pink</label>
+                </label>
+                <label class="color-check">
+                  <input type="checkbox" name="colors" value="violet" />
+                  <label>💜 Violet</label>
+                </label>
+                <label class="color-check">
+                  <input type="checkbox" name="colors" value="white" />
+                  <label>⚪ White</label>
+                </label>
+                <label class="color-check">
+                  <input type="checkbox" name="colors" value="peach" />
+                  <label>🍑 Peach</label>
+                </label>
+                <label class="color-check">
+                  <input type="checkbox" name="colors" value="lavender" />
+                  <label>💜 Lavender</label>
+                </label>
+                <label class="color-check">
+                  <input type="checkbox" name="colors" value="pastel" />
+                  <label>✨ Pastel Mix</label>
+                </label>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>Number of Flowers</h3>
+              <div class="quantity-section">
+                <input type="range" id="quantitySlider" class="quantity-slider" min="5" max="30" value="15" />
+                <div class="quantity-display">
+                  <span>Total Flowers:</span>
+                  <strong id="quantityValue">15</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="price-display">
+              <div>
+                <span>Base Price:</span>
+                <span id="basePrice">€25.00</span>
+              </div>
+              <div>
+                <span>Quantity Adjustment:</span>
+                <span id="quantityPrice">€7.50</span>
+              </div>
+              <div class="total">
+                <span>Total:</span>
+                <span id="totalPrice">€32.50</span>
+              </div>
+            </div>
+
+            <div class="actions">
+              <a href="shop.html" class="btn-back">Back to Shop</a>
+              <button type="button" class="btn-add" id="addToCartBtn">Add to Cart</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="custom-preview">
+          <div class="preview-bouquet" id="previewBouquet"></div>
+          <div class="preview-info">
+            <h3>Your Custom Bouquet</h3>
+            <p id="previewFlowers">Select flowers to start</p>
+            <p id="previewColors">Select colors</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> Bloomora — Flowers & Bouquets</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const basePrice = 25;
+    const pricePerFlower = 0.5;
+
+    document.addEventListener('DOMContentLoaded',()=>{
+      document.getElementById('year').textContent = new Date().getFullYear();
+      updateCartCount();
+      
+      const slider = document.getElementById('quantitySlider');
+      const flowerCheckboxes = document.querySelectorAll('input[name="flowers"]');
+      const colorCheckboxes = document.querySelectorAll('input[name="colors"]');
+      
+      slider.addEventListener('input',updatePreview);
+      flowerCheckboxes.forEach(cb=>cb.addEventListener('change',updatePreview));
+      colorCheckboxes.forEach(cb=>cb.addEventListener('change',updatePreview));
+      
+      document.getElementById('addToCartBtn').addEventListener('click',addCustomToCart);
+      
+      updatePreview();
+    });
+
+    function updatePreview(){
+      const quantity = parseInt(document.getElementById('quantitySlider').value);
+      const flowers = Array.from(document.querySelectorAll('input[name="flowers"]:checked')).map(cb=>cb.value);
+      const colors = Array.from(document.querySelectorAll('input[name="colors"]:checked')).map(cb=>cb.value);
+      
+      document.getElementById('quantityValue').textContent = quantity;
+      
+      const colorMap={pink:'#ff8fc4',violet:'#8b5cf6',white:'#ffffff',peach:'#ffb88c',lavender:'#d8b2e8',pastel:'#f0c6f0'};
+      const flowerEmoji={roses:'🌹',tulips:'🌷',peonies:'🌸',daisies:'🌼',lilies:'🌺',hydrangeas:'💜'};
+      
+      const totalPrice = basePrice + (quantity * pricePerFlower);
+      document.getElementById('basePrice').textContent = fmt(basePrice);
+      document.getElementById('quantityPrice').textContent = fmt(quantity * pricePerFlower);
+      document.getElementById('totalPrice').textContent = fmt(totalPrice);
+      
+      const flowerText = flowers.length>0 ? flowers.map(f=>flowerEmoji[f]+' '+f).join(', ') : 'Select flowers';
+      const colorText = colors.length>0 ? colors.join(', ') : 'Select colors';
+      document.getElementById('previewFlowers').textContent = flowerText;
+      document.getElementById('previewColors').textContent = colorText;
+    }
+
+    function addCustomToCart(){
+      const flowers = Array.from(document.querySelectorAll('input[name="flowers"]:checked')).map(cb=>cb.value);
+      const colors = Array.from(document.querySelectorAll('input[name="colors"]:checked')).map(cb=>cb.value);
+      const quantity = parseInt(document.getElementById('quantitySlider').value);
+      
+      if(flowers.length===0 || colors.length===0){
+        alert('Please select at least one flower type and color');
+        return;
+      }
+      
+      const totalPrice = basePrice + (quantity * pricePerFlower);
+      const customItem = {
+        id: 'custom_'+Date.now(),
+        name: 'Custom Bouquet - '+flowers.join(', ')+' in '+colors.join(', '),
+        price: totalPrice,
+        qty: 1,
+        flowers,
+        colors,
+        flowerCount: quantity
+      };
+      
+      cart.push(customItem);
+      updateCartCount();
+      alert('Custom bouquet added to cart!');
+      window.location.href = 'shop.html';
+    }
+  </script>
+</body>
+</html>

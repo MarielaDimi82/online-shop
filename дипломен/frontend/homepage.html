@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Bloomora — Bouquets & Flowers</title>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<style>
+	/* Category image cards (place your images in frontend/images/) */
+	.category-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0}
+	.cat-card{position:relative;border-radius:12px;overflow:hidden;min-height:160px;display:flex;align-items:flex-end;box-shadow:0 8px 24px rgba(99,60,134,0.06)}
+	.cat-card img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(0.95) saturate(1.05)}
+	.cat-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,0.35));display:flex;align-items:flex-end;padding:1rem}
+	.cat-meta{color:white}
+	.cat-meta h4{margin:0;font-size:1.1rem}
+	.cat-meta p{margin:4px 0 0;font-size:0.9rem;opacity:0.95}
+	.cat-cta{margin-top:0.6rem;padding:0.45rem 0.7rem;border-radius:10px;background:linear-gradient(90deg,var(--pink),var(--violet));border:none;color:white;cursor:pointer}
+	@media(max-width:480px){.cat-meta h4{font-size:1rem}}
+	</style>
+</head>
+<body>
+	<header class="site-header">
+			<div class="container header-inner">
+			<div class="brand">Bloomora</div>
+			<nav class="nav">
+				<a href="#">Home</a>
+			<div class="nav-dropdown">
+				<a href="shop.html">Shop</a>
+				<div class="dropdown-menu">
+					<a href="shop.html?category=all">All Bouquets</a>
+					<a href="shop.html?category=wedding">Wedding Bouquets</a>
+					<a href="shop.html?category=special">Special Occasions</a>
+					<a href="sameday.html">Same-day Delivery</a>
+				<a href="custom.html">Create Your Own</a>
+					<a href="shop.html?category=romantic">Romantic</a>
+				</div>
+			</div>
+				<a href="#about">About</a>
+				<button id="cartBtn" class="cart-btn">Cart (0)</button>
+			</nav>
+		</div>
+	</header>
+
+	<main>
+		<section class="hero">
+			<div class="container hero-inner">
+				<div class="hero-copy">
+					<h1>Futuristic, Cute Bouquets</h1>
+					<p>Pink & violet palettes, hand-made bouquets with modern twists — delivered with love.</p>
+					<a href="shop.html" class="btn-primary">Shop Bouquets</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Category image cards: place your photos in frontend/images/ and name them wedding.jpg, sameday.jpg, custom.jpg, romantic.jpg -->
+		<section class="container">
+			<div class="category-cards">
+				<a class="cat-card" href="shop.html?category=wedding">
+					<img src="images/wedding.jpg" alt="Wedding bouquets">
+					<div class="cat-overlay">
+						<div class="cat-meta"><h4>Wedding Bouquets</h4><p>Soft pastels and timeless arrangements</p><button class="cat-cta">Shop</button></div>
+					</div>
+				</a>
+				<a class="cat-card" href="sameday.html">
+					<img src="images/sameday.jpg" alt="Same-day bouquets">
+					<div class="cat-overlay">
+						<div class="cat-meta"><h4>Same-day Delivery</h4><p>Ready for immediate delivery</p><button class="cat-cta">Order Today</button></div>
+					</div>
+				</a>
+				<a class="cat-card" href="custom.html">
+					<img src="images/custom.jpg" alt="Create your own bouquet">
+					<div class="cat-overlay">
+						<div class="cat-meta"><h4>Create Your Own</h4><p>Build a bouquet that’s uniquely yours</p><button class="cat-cta">Build Now</button></div>
+					</div>
+				</a>
+				<a class="cat-card" href="shop.html?category=romantic">
+					<img src="images/romantic.jpg" alt="Romantic bouquets">
+					<div class="cat-overlay">
+						<div class="cat-meta"><h4>Romantic</h4><p>Roses and sweet arrangements</p><button class="cat-cta">Explore</button></div>
+					</div>
+				</a>
+			</div>
+		</section>
+
+		<section class="products container">
+			<h2 class="section-title">Featured Bouquets</h2>
+			<p>Explore our full selection on the <a href="shop.html">Shop page</a> — filter by color, flower type, or price to find the perfect bouquet.</p>
+		</section>
+
+		<section id="about" class="about container">
+			<h3>Why Bloomora</h3>
+			<p>We blend soft romantic colors with clean futuristic shapes — a little bit dreamy, a little bit modern.</p>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="container">
+			<small>© <span id="year"></span> Bloomora — Flowers & Bouquets</small>
+		</div>
+	</footer>
+
+	<div id="cartModal" class="cart-modal" aria-hidden="true">
+		<div class="cart-panel">
+			<button id="closeCart" class="close">✕</button>
+			<h4>Your Cart</h4>
+			<ul id="cartList" class="cart-list"></ul>
+			<div class="cart-footer">
+				<div class="total">Total: <span id="cartTotal">€0.00</span></div>
+				<button id="checkout" class="btn-primary">Checkout</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>
