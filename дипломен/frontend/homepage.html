@@ -7,16 +7,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 	<style>
-	/* Category image cards (place your images in frontend/images/) */
-	.category-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0}
-	.cat-card{position:relative;border-radius:12px;overflow:hidden;min-height:160px;display:flex;align-items:flex-end;box-shadow:0 8px 24px rgba(99,60,134,0.06)}
-	.cat-card img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(0.95) saturate(1.05)}
-	.cat-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,0.35));display:flex;align-items:flex-end;padding:1rem}
-	.cat-meta{color:white}
-	.cat-meta h4{margin:0;font-size:1.1rem}
-	.cat-meta p{margin:4px 0 0;font-size:0.9rem;opacity:0.95}
-	.cat-cta{margin-top:0.6rem;padding:0.45rem 0.7rem;border-radius:10px;background:linear-gradient(90deg,var(--pink),var(--violet));border:none;color:white;cursor:pointer}
-	@media(max-width:480px){.cat-meta h4{font-size:1rem}}
+	
 	</style>
 </head>
 <body>
@@ -43,62 +34,167 @@
 	</header>
 
 	<main>
-		<section class="hero">
-			<div class="container hero-inner">
-				<div class="hero-copy">
-					<h1>Futuristic, Cute Bouquets</h1>
-					<p>Pink & violet palettes, hand-made bouquets with modern twists — delivered with love.</p>
-					<a href="shop.html" class="btn-primary">Shop Bouquets</a>
-				</div>
-			</div>
-		</section>
+		  <!-- HERO SLIDER -->
+    <div class="hero-slider">
+        <!-- Слайд 1: Сватба -->
+        <div class="slide active">
+            <img src="images/jillwellington-wedding-bouquet-7185336_1920.jpg" alt="Сватбени букети">
+            <div class="slide-content">
+                <h1>Сватбени Букети</h1>
+                <p>Направи деня си незабравим</p>
+                <a href="wedding.html" class="btn">Виж офертите</a>
+            </div>
+        </div>
 
-		<!-- Category image cards: place your photos in frontend/images/ and name them wedding.jpg, sameday.jpg, custom.jpg, romantic.jpg -->
-		<section class="container">
-			<div class="category-cards">
-				<a class="cat-card" href="shop.html?category=wedding">
-					<img src="images/wedding.jpg" alt="Wedding bouquets">
-					<div class="cat-overlay">
-						<div class="cat-meta"><h4>Wedding Bouquets</h4><p>Soft pastels and timeless arrangements</p><button class="cat-cta">Shop</button></div>
-					</div>
-				</a>
-				<a class="cat-card" href="sameday.html">
-					<img src="images/sameday.jpg" alt="Same-day bouquets">
-					<div class="cat-overlay">
-						<div class="cat-meta"><h4>Same-day Delivery</h4><p>Ready for immediate delivery</p><button class="cat-cta">Order Today</button></div>
-					</div>
-				</a>
-				<a class="cat-card" href="custom.html">
-					<img src="images/custom.jpg" alt="Create your own bouquet">
-					<div class="cat-overlay">
-						<div class="cat-meta"><h4>Create Your Own</h4><p>Build a bouquet that’s uniquely yours</p><button class="cat-cta">Build Now</button></div>
-					</div>
-				</a>
-				<a class="cat-card" href="shop.html?category=romantic">
-					<img src="images/romantic.jpg" alt="Romantic bouquets">
-					<div class="cat-overlay">
-						<div class="cat-meta"><h4>Romantic</h4><p>Roses and sweet arrangements</p><button class="cat-cta">Explore</button></div>
-					</div>
-				</a>
-			</div>
-		</section>
+        <!-- Слайд 2: Направи сам -->
+        <div class="slide">
+            <img src="images/pexels-bruno-mattos-2148523065-30232872 – Копие.jpg" alt="Направи си сам">
+            <div class="slide-content">
+                <h1>Направи си сам</h1>
+                <p>Конфигурирай своя уникален букет</p>
+                <a href="custom.html" class="btn">Започни сега</a>
+            </div>
+        </div>
 
-		<section class="products container">
-			<h2 class="section-title">Featured Bouquets</h2>
-			<p>Explore our full selection on the <a href="shop.html">Shop page</a> — filter by color, flower type, or price to find the perfect bouquet.</p>
-		</section>
+        <!-- Слайд 3: Доставка днес -->
+        <div class="slide">
+            <img src="images/noname_13-flowers-1716747_1920.jpg" alt="Доставка днес">
+            <div class="slide-content">
+                <h1>Доставка Днес</h1>
+                <p>Закажи до 14:00 и получи до 18:00</p>
+                <a href="sameday.html" class="btn">Закажи сега</a>
+            </div>
+        </div>
+    </div>
 
-		<section id="about" class="about container">
-			<h3>Why Bloomora</h3>
-			<p>We blend soft romantic colors with clean futuristic shapes — a little bit dreamy, a little bit modern.</p>
-		</section>
+
+		<!-- FEATURED BOUQUETS SECTION -->
+<section class="featured-section">
+    <div class="container">
+        <h2 class="section-title">Популярни Букети</h2>
+        <p class="section-subtitle">Избери от нашите най-продавани букети</p>
+        
+        <div class="bouquets-grid">
+            <!-- Букет 1 -->
+            <div class="bouquet-card">
+                <div class="bouquet-image">
+                    <img src="images/pexels-fong-nhj-899710283-20590259 – Копие.jpg" alt="Розов Букет">
+                    <span class="badge">Хит</span>
+                </div>
+                <div class="bouquet-info">
+                    <h3>Розови Слънца</h3>
+                    <p class="bouquet-desc">10 рози + зеленина</p>
+                    <div class="bouquet-price">
+                        <span class="price">45.00 лв.</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Розови Слънца', 45)">
+                        Добави в количка
+                    </button>
+                </div>
+            </div>
+
+            <!-- Букет 2 -->
+            <div class="bouquet-card">
+                <div class="bouquet-image">
+                    <img src="images/pexels-rehman-yousaf-321165099-30319663 – Копие.jpg" alt="Тюлани Букет">
+                </div>
+                <div class="bouquet-info">
+                    <h3>Пролетни Тюлани</h3>
+                    <p class="bouquet-desc">15 тюлани + опаковка</p>
+                    <div class="bouquet-price">
+                        <span class="price">38.00 лв.</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Пролетни Тюлани', 38)">
+                        Добави в количка
+                    </button>
+                </div>
+            </div>
+
+            <!-- Букет 3 -->
+            <div class="bouquet-card">
+                <div class="bouquet-image">
+                    <img src="images/pexels-kallydru-35349246 – Копие.jpg" alt="Микс Букет">
+                    <span class="badge new">Нов</span>
+                </div>
+                <div class="bouquet-info">
+                    <h3>Микс Емоции</h3>
+                    <p class="bouquet-desc">12 цветя от микс</p>
+                    <div class="bouquet-price">
+                        <span class="price">52.00 лв.</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Микс Емоции', 52)">
+                        Добави в количка
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- FEATURES SECTION -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Защо да избереш нас?</h2>
+        <p class="section-subtitle">Гарантираме качество и сервиз</p>
+        
+        <div class="features-grid">
+            <!-- Предимство 1 -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <h3>Бърза Доставка</h3>
+                <p>Доставка в рамките на 24 часа в цялата страна</p>
+            </div>
+
+            <!-- Предимство 2 -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h3>Свежи Цветя</h3>
+                <p>Гаранция за свежест 7 дни от получаването</p>
+            </div>
+
+            <!-- Предимство 3 -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                </div>
+                <h3>Лесно Плащане</h3>
+                <p>Карта, наложен платец, банкова сметка</p>
+            </div>
+
+            <!-- Предимство 4 -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <h3>Поддръжка</h3>
+                <p>Безплатни съвети за грижа за цветята</p>
+            </div>
+        </div>
+    </div>
+</section>
 	</main>
 
 	<footer class="site-footer">
-		<div class="container">
-			<small>© <span id="year"></span> Bloomora — Flowers & Bouquets</small>
-		</div>
-	</footer>
+    <div class="container">
+        <div class="footer-content">
+            <small>© <span id="year"></span> Bloomora — Flowers & Bouquets</small>
+        </div>
+    </div>
+</footer>
 
 	<div id="cartModal" class="cart-modal" aria-hidden="true">
 		<div class="cart-panel">

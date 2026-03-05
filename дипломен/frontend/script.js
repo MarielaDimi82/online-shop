@@ -1,11 +1,4 @@
-const products = [
-  {id:1,name:'Sweet Pink Bouquet',price:34.00,colors:['pink','white'],type:'roses',category:'wedding'},
-  {id:2,name:'Violet Dream',price:42.00,colors:['violet','pink'],type:'mixed',category:'romantic'},
-  {id:3,name:'Blush & Lace',price:29.50,colors:['pink','peach'],type:'peonies',category:'special'},
-  {id:4,name:'Lilac Breeze',price:38.00,colors:['violet','white'],type:'tulips',category:'wedding'},
-  {id:5,name:'Moonlight Bouquet',price:49.00,colors:['white','pastel'],type:'roses',category:'special'},
-  {id:6,name:'Pastel Box',price:27.00,colors:['pastel','pink'],type:'mixed',category:'custom'}
-];
+
 
 const cart = [];
 
@@ -131,20 +124,72 @@ document.addEventListener('click',e=>{
   }
 });
 
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('year').textContent = new Date().getFullYear();
-  updateCartCount();
-  if(document.getElementById('productGrid')){
-    const urlParams = new URLSearchParams(window.location.search);
-    const category = urlParams.get('category') || 'all';
-    const categoryDisplay = {all:'All Bouquets',wedding:'Wedding Bouquets',special:'Special Occasions',custom:'Create Your Own',romantic:'Romantic'};
-    const title = document.querySelector('.section-title');
-    if(title && category !== 'all'){
-      title.textContent = `Shop — ${categoryDisplay[category] || 'Bouquets'}`;
+document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const slideInterval = 5000; // Смяна на всеки 5 секунди (5000ms)
+
+    function nextSlide() {
+        // Премахваме класа active от текущия слайд
+        slides[currentSlide].classList.remove('active');
+        
+        // Пресмятаме следващия слайд (ако е последен, връщаме се на първи)
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Добавяме класа active на следващия слайд
+        slides[currentSlide].classList.add('active');
     }
+
+    // Автоматична смяна
+    setInterval(nextSlide, slideInterval);
+
+    // Опционално: Стрелки за ръчна навигация
+    const prevBtn = document.createElement('button');
+    prevBtn.innerHTML = '❮';
+    prevBtn.className = 'prev';
+    prevBtn.onclick = function() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+    };
+
+    const nextBtn = document.createElement('button');
+    nextBtn.innerHTML = '❯';
+    nextBtn.className = 'next';
+    nextBtn.onclick = function() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    };
+
+    document.querySelector('.hero-slider').appendChild(prevBtn);
+    document.querySelector('.hero-slider').appendChild(nextBtn);
+});
     populateFilterOptions();
     applyFilters();
     document.getElementById('applyFilters')?.addEventListener('click',applyFilters);
     document.getElementById('resetFilters')?.addEventListener('click',resetFilters);
-  }
-});
+  
+    // Функция за добавяне в количка
+function addToCart(productName, price) {
+    // Тук можеш да добавиш логика за количката
+    // Например: localStorage, или да отвориш модификатор
+    
+    alert(`Добавихте "${productName}" за ${price} лв. в количката!`);
+    
+    // Пример за запазване в localStorage (за по-сериозен магазин)
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name: productName, price: price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Обновяване на иконата на количката (ако имаш такава)
+    updateCartIcon(cart.length);
+}
+
+// Функция за обновяване на иконата на количката
+function updateCartIcon(count) {
+    const cartIcon = document.querySelector('.cart-icon');
+    if (cartIcon) {
+        cartIcon.textContent = `Количка (${count})`;
+    }
+}
